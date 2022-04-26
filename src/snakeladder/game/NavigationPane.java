@@ -294,6 +294,20 @@ public class NavigationPane extends GameGrid
       showStatus("Done. Click the hand!");
       String result = gp.getPuppet().getPuppetName() + " - pos: " + currentIndex;
       showResult(result);
+
+      int currIndex = gp.getCurrentPuppetIndex();
+      // Except for the player at the current index, check if there is other player at the same index
+      int i = 0;
+      for(Puppet p : gp.getAllPuppets()){
+        if(i != currIndex && p.getCellIndex() == currentIndex){
+          p.setBack(true);
+          p.go(-1);
+        }
+        i++;
+      }
+
+
+
       gp.switchToNextPuppet();
       // System.out.println("current puppet - auto: " + gp.getPuppet().getPuppetName() + "  " + gp.getPuppet().isAuto() );
 

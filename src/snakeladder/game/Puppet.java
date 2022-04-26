@@ -15,6 +15,13 @@ public class Puppet extends Actor
   private boolean isAuto;
   private String puppetName;
 
+  private boolean isLowest = false;
+  private boolean isBack = false;
+
+  public void setBack(boolean isBack){
+    this.isBack = isBack;
+  }
+
   Puppet(GamePane gp, NavigationPane np, String puppetImage)
   {
     super(puppetImage);
@@ -46,6 +53,15 @@ public class Puppet extends Actor
       setLocation(gamePane.startLocation);
     }
     this.nbSteps = nbSteps;
+
+    // check if the roll has the lowest value
+    if(nbSteps == navigationPane.getNumberOfDice()){
+      isLowest = true;
+    }else{
+      isLowest = false;
+    }
+
+
     setActEnabled(true);
   }
 
@@ -59,7 +75,7 @@ public class Puppet extends Actor
     return cellIndex;
   }
 
-  private void moveToNextCell()
+  /* private void moveToNextCell()
   {
     int tens = cellIndex / 10;
     int ones = cellIndex - tens * 10;
@@ -78,6 +94,15 @@ public class Puppet extends Actor
         setLocation(new Location(getX() - 1, getY()));
     }
     cellIndex++;
+  } */
+
+  private void moveToCell(int nbSteps){
+    if(nbSteps > 0){
+      cellIndex++;
+    }else if(nbSteps < 0){
+      cellIndex--;
+    }
+    setLocation(GamePane.cellToLocation(cellIndex));
   }
 
   public void act()
@@ -94,7 +119,7 @@ public class Puppet extends Actor
     }
 
     // Animation: Move on connection
-    if (currentCon != null)
+    if (currentCon != null && !(isLowest && currentCon.cellEnd - currentCon.cellStart < 0))
     {
       int x = gamePane.x(y, currentCon);
       setPixelLocation(new Point(x, y));
@@ -116,9 +141,9 @@ public class Puppet extends Actor
     }
 
     // Normal movement
-    if (nbSteps > 0)
+    if (nbSteps != 0)
     {
-      moveToNextCell();
+      moveToCell(nbSteps);
 
       if (cellIndex == 100)  // Game over
       {
@@ -127,11 +152,16 @@ public class Puppet extends Actor
         return;
       }
 
-      nbSteps--;
+      if(nbSteps > 0){
+        nbSteps--;
+      }
+      if(nbSteps < 0){
+        nbSteps++;
+      }
       if (nbSteps == 0)
       {
         // Check if on connection start
-        if ((currentCon = gamePane.getConnectionAt(getLocation())) != null)
+        if ((currentCon = gamePane.getConnectionAt(getLocation())) != null && !(isLowest && currentCon.cellEnd - currentCon.cellStart < 0))
         {
           gamePane.setSimulationPeriod(50);
           y = gamePane.toPoint(currentCon.locStart).y;

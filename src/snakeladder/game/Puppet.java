@@ -180,6 +180,12 @@ public class Puppet extends Actor
             navigationPane.playSound(GGSound.BOING);
           }
         }
+        //changed this for q3
+        else if(this.isBack==true){
+          System.out.println("backwards");
+          setActEnabled(true);
+          this.isBack = false;
+        }
         else
         {
           setActEnabled(false);

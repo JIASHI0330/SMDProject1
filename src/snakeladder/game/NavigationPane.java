@@ -196,6 +196,18 @@ public class NavigationPane extends GameGrid
     return RANDOM_ROLL_TAG;
   }
 
+  // add a function to manually click the button
+  public void toggleButton(boolean toCheck){
+    // if there is any change with the toggleButton, we should call reverseAllConnections
+    if(toggleCheck.isChecked() && !toCheck){
+      toggleCheck.setChecked(false);
+      gp.reverseAllConnections();
+    }else if(!toggleCheck.isChecked() && toCheck){
+      toggleCheck.setChecked(true);
+      gp.reverseAllConnections();
+    }
+  }
+
   void createGui()
   {
     addActor(new Actor("sprites/dieboard.gif"), dieBoardLocation);
@@ -218,6 +230,7 @@ public class NavigationPane extends GameGrid
       @Override
       public void buttonChecked(GGCheckButton ggCheckButton, boolean checked) {
         isToggle = checked;
+        gp.reverseAllConnections();
       }
     });
 

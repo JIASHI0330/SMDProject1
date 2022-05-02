@@ -2,7 +2,7 @@ package snakeladder.game;
 
 import ch.aplu.jgamegrid.Location;
 
-public abstract class Connection
+public abstract class  Connection
 {
   Location locStart;
   Location locEnd;
@@ -26,6 +26,11 @@ public abstract class Connection
   public Location getLocEnd() {
     return locEnd;
   }
+  public int getCellStart(){return cellStart;};
+
+  public int getCellEnd() {
+    return cellEnd;
+  }
 
   public String getImagePath() {
     return imagePath;
@@ -41,4 +46,16 @@ public abstract class Connection
   public double yLocationPercent(int locationCell) {
     return (double) locationCell / GamePane.NUMBER_VERTICAL_CELLS;
   }
+
+  public void reverseConnection(){
+    // Exchange start and end
+    Location locTmp = locStart;
+    locStart = locEnd;
+    locEnd = locTmp;
+
+    int cellTmp = cellStart;
+    cellStart = cellEnd;
+    cellEnd = cellTmp;
+  }
 }
+

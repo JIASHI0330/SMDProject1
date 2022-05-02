@@ -134,4 +134,10 @@ public class GamePane extends GameGrid
     return (int)(a * y + b);
   }
 
+  public void reverseAllConnections(){
+    for(Connection conn: connections){
+      conn.reverseConnection();
+    }
+  }
+
 }

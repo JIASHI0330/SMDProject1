@@ -65,7 +65,7 @@ public class GamePane extends GameGrid
       int spriteImageIndex = i % MAX_PUPPET_SPRITES;
       String puppetImage = "sprites/cat_" + spriteImageIndex + ".gif";
 
-      Puppet puppet = new Puppet(this, np, puppetImage);
+      Puppet puppet = new Puppet(this, np, puppetImage,"Player " + (i + 1));
       puppet.setAuto(isAuto);
       puppet.setPuppetName("Player " + (i + 1));
       addActor(puppet, startLocation);

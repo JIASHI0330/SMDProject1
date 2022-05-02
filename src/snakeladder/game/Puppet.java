@@ -18,17 +18,25 @@ public class Puppet extends Actor
   private boolean isLowest = false;
   private boolean isBack = false;
 
+  private Statistics stats;
+
+  public Statistics getStats(){
+    return this.stats;
+  }
+
   private ToggleStrategy toggleStrategy = new BasicToggleStrategy();
 
   public void setBack(boolean isBack){
     this.isBack = isBack;
   }
 
-  Puppet(GamePane gp, NavigationPane np, String puppetImage)
+  Puppet(GamePane gp, NavigationPane np, String puppetImage,String puppetName)
   {
     super(puppetImage);
     this.gamePane = gp;
     this.navigationPane = np;
+    this.puppetName = puppetName;
+    this.stats = new Statistics(puppetName);
   }
 
   public boolean isAuto() {
@@ -55,6 +63,10 @@ public class Puppet extends Actor
       setLocation(gamePane.startLocation);
     }
     this.nbSteps = nbSteps;
+
+    if (nbSteps > 0){
+      stats.addToRolledList(nbSteps);
+    }
 
     // check if the roll has the lowest value
     if(nbSteps == navigationPane.getNumberOfDice()){
@@ -180,6 +192,13 @@ public class Puppet extends Actor
           {
             navigationPane.showStatus("Climbing...");
             navigationPane.playSound(GGSound.BOING);
+          }
+
+          if (currentCon.cellEnd - currentCon.cellStart > 0){
+            stats.appendUpOccurrence();
+          }
+          else{
+            stats.appendDownOccurrence();
           }
         }
         //changed this for q3

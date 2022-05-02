@@ -282,6 +282,11 @@ public class NavigationPane extends GameGrid
   {
     resultField.setText(text);
     System.out.println("Result: " + text);
+
+
+    for (Puppet currPuppet: gp.getAllPuppets()){
+      System.out.println(currPuppet.getStats());
+    }
   }
 
   void prepareRoll(int currentIndex)

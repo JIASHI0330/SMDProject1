@@ -149,7 +149,12 @@ public class Puppet extends Actor
         cellIndex = currentCon.cellEnd;
         setLocationOffset(new Point(0, 0));
         currentCon = null;
-        navigationPane.prepareRoll(cellIndex);
+        if (this.isBack){
+          this.isBack = false;
+        }
+        else{
+          navigationPane.prepareRoll(cellIndex);
+        }
       }
       return;
     }
@@ -205,7 +210,7 @@ public class Puppet extends Actor
         else if(this.isBack==true){
           System.out.println("backwards");
           setActEnabled(true);
-          this.isBack = false;
+//          this.isBack = false;
         }
         else
         {
@@ -217,8 +222,10 @@ public class Puppet extends Actor
         if(isAuto){
           boolean toToggle = toggleStrategy.checkIfToggle(navigationPane, gamePane);
           if(toToggle){
+            System.out.println("Toggle on");
             navigationPane.toggleButton(true);
           }else{
+            System.out.println("Toggle off");
             navigationPane.toggleButton(false);
           }
         }

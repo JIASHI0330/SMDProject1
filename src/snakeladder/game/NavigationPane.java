@@ -25,7 +25,7 @@ public class NavigationPane extends GameGrid
           roll(getDieValue());
           delay(1000);
         }   // added
-        delay(1000);
+//        delay(1000);
         handBtn.show(0);
       }
     }
@@ -220,8 +220,18 @@ public class NavigationPane extends GameGrid
       public void buttonChecked(GGCheckButton button, boolean checked)
       {
         isAuto = checked;
-        if (isAuto)
-          Monitor.wakeUp();
+
+      if (isAuto){
+        Monitor.wakeUp();
+        for (Puppet currPuppet: gp.getAllPuppets()) {
+          currPuppet.setAuto(true);
+        }
+      }
+      else{
+        for (Puppet currPuppet: gp.getAllPuppets()) {
+          currPuppet.setAuto(false);
+        }
+      }
       }
     });
 
